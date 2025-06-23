@@ -10,4 +10,3 @@ Flavor Table is a simple web application that lets you search for recipes based 
 - Retrieve and display saved favorite recipes.
 - Simple and user-friendly interface.
 
-Link of Deploy (https://flavortable-git-main-osamaaalmahameeds-projects.vercel.app)
