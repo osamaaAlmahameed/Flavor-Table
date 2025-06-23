@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorites</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Search</a>
+    <a href="randomRecipes.html">Random</a>
+    <a href="favorites.html">Favorites</a>
+  </nav>
+  <main>
+    <h1>Favorite Recipes</h1>
+    <div id="favorites"></div>
+  </main>
+  <script>
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const container = document.getElementById("favorites");
+    container.innerHTML = favorites.map(f => `
+      <div>
+        <h3>${f.title}</h3>
+        <img src="${f.image}" width="150" />
+        <button onclick="removeFavorite(${f.id})">Remove</button>
+      </div>
+    `).join("");
+
+    function removeFavorite(id) {
+      const updated = favorites.filter(f => f.id !== id);
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      location.reload();
+    }
+  </script>
+</body>
+</html>

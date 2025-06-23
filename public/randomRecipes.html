@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Recipe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">Search</a>
+    <a href="randomRecipes.html">Random</a>
+    <a href="favorites.html">Favorites</a>
+  </nav>
+  <main>
+    <button id="getRandom">Get Random Recipe</button>
+    <div id="randomContainer"></div>
+  </main>
+  <script>
+    document.getElementById("getRandom").addEventListener("click", async () => {
+      const res = await fetch("/recipes/random");
+      const data = await res.json();
+      document.getElementById("randomContainer").innerHTML = `
+        <h2>${data.title}</h2>
+        <img src="${data.image}" alt="${data.title}"/>
+        <p>${data.instructions}</p>
+        <ul>${data.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+      `;
+    });
+  </script>
+</body>
+</html>
