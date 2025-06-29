@@ -48,11 +48,21 @@ function displayRecipes(recipes) {
     card.className = 'recipe-card';
     card.innerHTML =
       '<img src="' + recipe.image + '" alt="' + recipe.title + '" />' +
-      '<h3>' + recipe.title + '</h3>';
+      '<h3>' + recipe.title + '</h3>' +
+      '<p>Used: ' + recipe.usedIngredients.join(', ') + '</p>' +
+      '<p>Missed: ' + recipe.missedIngredients.join(', ') + '</p>' +
+      '<button class="add-fav-btn">Add to Favorites</button>';
 
-    card.addEventListener('click', function () {
+    card.querySelector('.add-fav-btn').addEventListener('click', function () {
+      addToFavorites(recipe);
+    });
+
+    card.addEventListener('click', function (e) {
+      // prevent click if the button was clicked
+      if (e.target.classList.contains('add-fav-btn')) return;
       fetchRecipeDetails(recipe.id);
     });
+
     resultsSection.appendChild(card);
   });
 }
@@ -107,4 +117,23 @@ function fetchRandomRecipe() {
     .catch(function () {
       resultsSection.innerHTML = '<p>Failed to fetch random recipe.</p>';
     });
+}
+
+function addToFavorites(recipe) {
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const exists = favorites.some(fav => fav.id === recipe.id);
+  if (exists) {
+    alert("Already in favorites");
+    return;
+  }
+
+  favorites.push({
+    id: recipe.id,
+    title: recipe.title,
+    image: recipe.image
+  });
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  alert("Added to favorites!");
 }
