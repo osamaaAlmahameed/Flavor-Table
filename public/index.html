@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Favorites</title>
+  <title>Random Recipe</title>
   <style>
-    *{
+        *{
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -37,25 +37,24 @@
     <a href="favorites.html">Favorites</a>
   </nav>
   <main>
-    <h1>Favorite Recipes</h1>
-    <div id="favorites"></div>
+    <button id="getRandom">Get Random Recipe</button>
+    <div id="randomContainer"></div>
   </main>
   <script>
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    const container = document.getElementById("favorites");
-    container.innerHTML = favorites.map(f => `
-      <div>
-        <h3>${f.title}</h3>
-        <img src="${f.image}" width="150" />
-        <button onclick="removeFavorite(${f.id})">Remove</button>
-      </div>
-    `).join("");
+    document.getElementById("getRandom").addEventListener("click", async () => {
+  const res = await fetch("/recipes/random");
+  const data = await res.json();
+  const recipe = data.recipes[0];
 
-    function removeFavorite(id) {
-      const updated = favorites.filter(f => f.id !== id);
-      localStorage.setItem("favorites", JSON.stringify(updated));
-      location.reload();
-    }
+  document.getElementById("randomContainer").innerHTML = `
+    <h2>${recipe.title}</h2>
+    <img src="${recipe.image}" alt="${recipe.title}" width="300"/>
+    <p>${recipe.instructions || "No instructions available."}</p>
+    <ul>
+      ${recipe.extendedIngredients.map(i => `<li>${i.name}</li>`).join("")}
+    </ul>
+  `;
+});
   </script>
 </body>
 </html>
