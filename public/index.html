@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Random Recipe</title>
+  <meta charset="UTF-8" />
+  <title>Flavor Table</title>
   <style>
         *{
       padding: 0;
@@ -28,33 +28,29 @@
       color: rgb(102, 34, 34);
     }
   </style>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css" />
+  
 </head>
 <body>
-  <nav>
-    <a href="index.html">Search</a>
-    <a href="randomRecipes.html">Random</a>
-    <a href="favorites.html">Favorites</a>
-  </nav>
-  <main>
-    <button id="getRandom">Get Random Recipe</button>
-    <div id="randomContainer"></div>
-  </main>
-  <script>
-    document.getElementById("getRandom").addEventListener("click", async () => {
-  const res = await fetch("/recipes/random");
-  const data = await res.json();
-  const recipe = data.recipes[0];
+  <header>
+    <h1>Flavor Table</h1>
+    <nav>
+      <a href="favorites.html">favorites</a>
+      <a href="randomRecipes.html">random</a>
+    </nav>
+  </header>
 
-  document.getElementById("randomContainer").innerHTML = `
-    <h2>${recipe.title}</h2>
-    <img src="${recipe.image}" alt="${recipe.title}" width="300"/>
-    <p>${recipe.instructions || "No instructions available."}</p>
-    <ul>
-      ${recipe.extendedIngredients.map(i => `<li>${i.name}</li>`).join("")}
-    </ul>
-  `;
-});
-  </script>
+  <main>
+    <div class="search-section">
+      <input type="text" id="ingredientInput" placeholder="Enter ingredients (comma separated)" />
+      <button id="searchBtn">Search Recipes</button>
+      <button id="randomBtn">Random Recipe</button>
+    </div>
+
+    <div id="results"></div>
+    <div id="details"></div>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
