@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Flavor Table</title>
+  <meta charset="UTF-8">
+  <title>Favorites</title>
   <style>
-        *{
+    *{
       padding: 0;
       margin: 0;
       box-sizing: border-box;
@@ -28,29 +28,34 @@
       color: rgb(102, 34, 34);
     }
   </style>
-  <link rel="stylesheet" href="style.css" />
-  
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Flavor Table</h1>
-    <nav>
-      <a href="favorites.html">favorites</a>
-      <a href="randomRecipes.html">random</a>
-    </nav>
-  </header>
-
+  <nav>
+    <a href="index.html">Search</a>
+    <a href="randomRecipes.html">Random</a>
+    <a href="favorites.html">Favorites</a>
+  </nav>
   <main>
-    <div class="search-section">
-      <input type="text" id="ingredientInput" placeholder="Enter ingredients (comma separated)" />
-      <button id="searchBtn">Search Recipes</button>
-      <button id="randomBtn">Random Recipe</button>
-    </div>
-
-    <div id="results"></div>
-    <div id="details"></div>
+    <h1>Favorite Recipes</h1>
+    <div id="favorites"></div>
   </main>
+  <script>
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const container = document.getElementById("favorites");
+    container.innerHTML = favorites.map(f => `
+      <div>
+        <h3>${f.title}</h3>
+        <img src="${f.image}" width="150" />
+        <button onclick="removeFavorite(${f.id})">Remove</button>
+      </div>
+    `).join("");
 
-  <script src="app.js"></script>
+    function removeFavorite(id) {
+      const updated = favorites.filter(f => f.id !== id);
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      location.reload();
+    }
+  </script>
 </body>
 </html>
